@@ -14,6 +14,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [showLogin, setShowLogin] = useState(true);
   const [showRegister, setShowRegister] = useState(false);
+  const [showRegistrationSuccess, setShowRegistrationSuccess] = useState(false);
 
   // Состояния для форм
   const [newUser, setNewUser] = useState({
@@ -93,13 +94,20 @@ function App() {
         last_name: registerData.last_name,
         role: 'user'
       });
-      showMessage('✅ Регистрация успешна! Теперь вы можете войти.');
-      setShowRegister(false);
+      
+      // Показываем окно успешной регистрации
+      setShowRegistrationSuccess(true);
       setRegisterData({ username: '', email: '', password: '', first_name: '', last_name: '' });
+      
     } catch (error) {
       console.error('Error registering user:', error);
       showMessage('❌ Ошибка регистрации', 'error');
     }
+  };
+
+  const handleRegistrationSuccess = () => {
+    setShowRegistrationSuccess(false);
+    setShowRegister(false);
   };
 
   const handleLogout = () => {
@@ -242,8 +250,6 @@ function App() {
     return user ? user.username : 'Не назначена';
   };
 
-  const canAssignToUsers = currentUser?.role === 'admin' || currentUser?.role === 'manager';
-
   if (showLogin) {
     return (
       <div className="login-container">
@@ -251,6 +257,24 @@ function App() {
           <h1>🚀 Микросервисная система</h1>
           <p>Войдите в систему для продолжения</p>
           
+          {/* Окно успешной регистрации */}
+          {showRegistrationSuccess && (
+            <div className="registration-success">
+              <div className="success-content">
+                <div className="success-icon">🎉</div>
+                <h3>Регистрация успешна!</h3>
+                <p>Ваш аккаунт был успешно создан.</p>
+                <p>Теперь вы можете войти в систему.</p>
+                <button 
+                  className="success-ok-btn"
+                  onClick={handleRegistrationSuccess}
+                >
+                  ОК
+                </button>
+              </div>
+            </div>
+          )}
+
           {showRegister ? (
             <form onSubmit={handleRegister}>
               <h3>📝 Регистрация</h3>
@@ -752,22 +776,7 @@ function App() {
                       <option value="high">🔴 Высокий</option>
                     </select>
                   </div>
-                  {canAssignToUsers && (
-                    <div className="form-group">
-                      <label>Назначить пользователю</label>
-                      <select
-                        value={newTask.assigned_to}
-                        onChange={(e) => setNewTask({...newTask, assigned_to: e.target.value})}
-                      >
-                        <option value="">👤 Выберите пользователя</option>
-                        {users.map(user => (
-                          <option key={user.id} value={user.id}>
-                            {user.username} {user.role === 'admin' ? '(🔧 Админ)' : user.role === 'manager' ? '(👔 Менеджер)' : '(👤 Пользователь)'}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
+                  
                 </div>
                 <div className="form-actions">
                   <button type="submit" className="save-btn">💾 Сохранить</button>
@@ -821,12 +830,11 @@ function App() {
                       <option value="high">🔴 Высокий</option>
                     </select>
                   </div>
-                  {canAssignToUsers && (
                     <div className="form-group">
                       <label>Назначить пользователю</label>
                       <select
                         value={editingTask.assigned_to}
-                        onChange={(e) => setEditingTask({...editingTask, assigned_to: e.target.value})}
+                        onChange={(e) => setEditingTask({...editingTask, assigned_to: parseInt(e.target.value)})}
                       >
                         <option value="">👤 Выберите пользователя</option>
                         {users.map(user => (
@@ -836,7 +844,7 @@ function App() {
                         ))}
                       </select>
                     </div>
-                  )}
+                  
                 </div>
                 <div className="form-actions">
                   <button type="submit" className="save-btn">💾 Сохранить</button>
