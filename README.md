@@ -171,37 +171,37 @@ docker-compose down -v
 
 ✅ Просмотр профиля
 
-### 📊 Мониторинг
+# 📊 Мониторинг
 
 Health checks
 curl http://localhost:8080/health
 
-Проверка БД
+### Проверка БД
 docker exec -it microservices-project-postgres-1 psql -U micro_user -d microservices -c "SELECT * FROM users;"
 
-Проверка Redis
+### Проверка Redis
 docker exec -it microservices-project-redis-1 redis-cli ping
 
 🤝 Вклад в проект
 
-1.Форкните репозиторий
-2.Создайте ветку для функции (git checkout -b feature/amazing-feature)
-3.Закоммитьте изменения (git commit -m 'Add amazing feature')
-4.Запушьте в ветку (git push origin feature/amazing-feature)
-5.Откройте Pull Request
+- 1.Форкните репозиторий
+- 2.Создайте ветку для функции (git checkout -b feature/amazing-feature)
+- 3.Закоммитьте изменения (git commit -m 'Add amazing feature')
+- 4.Запушьте в ветку (git push origin feature/amazing-feature)
+- 5.Откройте Pull Request
 
 👨‍💻 Автор
-Ваше Имя
+Данил
 
-GitHub: @Tim948
+GitHub: [@Tim948](https://github.com/Tim948)
 
 Проект: Microservices Management System
 
 🙏 Благодарности
 
-Go community за отличный язык
-React team за прекрасный фреймворк
-Docker за удобные контейнеры
-Freepik за красивый фон
+- Go community за отличный язык
+- React team за прекрасный фреймворк
+- Docker за удобные контейнеры
+- Freepik за красивый фон
 
 ⭐ Не забудьте поставить звезду, если проект вам понравился!
